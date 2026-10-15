@@ -84,3 +84,7 @@ pytest
 ```
 
 解析與比對邏輯（`script_parser.py`、`matcher.py`）不需要 `ffmpeg` 或實際跑語音辨識即可測試。
+
+## 其他工具
+
+- [`exam-generator/`](exam-generator/)：英文試卷 AI 生成器，依雜誌月號單元的單字、文法、句型與主題自動命題並組成試卷。

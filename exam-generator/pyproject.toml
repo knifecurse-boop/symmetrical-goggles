@@ -1,0 +1,30 @@
+[project]
+name = "exam-generator"
+version = "0.1.0"
+description = "英文試卷 AI 生成器：依雜誌月號單元的單字、文法、句型與主題，自動命題並組成試卷"
+requires-python = ">=3.10"
+dependencies = [
+    "anthropic>=1.14.0",
+    "pydantic>=2.6",
+    "pyyaml>=6.0",
+    "python-docx>=1.1",
+    "flask>=3.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+]
+
+[project.scripts]
+exam-gen = "exam_generator.cli:main"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+exam_generator = ["templates/*.html"]

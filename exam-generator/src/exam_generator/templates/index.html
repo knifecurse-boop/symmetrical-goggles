@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>英文試卷生成器</title>
+<style>
+:root {
+  --bg:#f6f7f9; --card:#fff; --ink:#1d2330; --muted:#667085; --line:#dde1e7;
+  --accent:#1f5fa8; --accent-ink:#fff; --danger:#b3261e; --ok:#1b7f3b;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg:#14171c; --card:#1d2128; --ink:#e7e9ee; --muted:#9aa3b2; --line:#323844;
+          --accent:#6aa6ef; --accent-ink:#0d1117; --danger:#f2867e; --ok:#6fd08c; }
+}
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--ink);
+       font-family:system-ui,-apple-system,"Noto Sans TC","Microsoft JhengHei",sans-serif; font-size:15px; }
+header { padding:20px 16px 8px; max-width:1000px; margin:0 auto; }
+header h1 { margin:0; font-size:22px; }
+header p { margin:4px 0 0; color:var(--muted); }
+main { max-width:1000px; margin:0 auto; padding:8px 16px 48px; display:grid; gap:16px; }
+main > * { min-width:0; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px; }
+.card h2 { margin:0 0 12px; font-size:17px; }
+.step { display:inline-block; width:22px; height:22px; border-radius:50%; background:var(--accent);
+        color:var(--accent-ink); text-align:center; line-height:22px; font-size:13px; margin-right:6px; }
+label { display:block; font-size:13px; color:var(--muted); margin-bottom:4px; }
+input[type=text], input[type=number], select, textarea {
+  width:100%; padding:7px 9px; border:1px solid var(--line); border-radius:6px;
+  background:var(--card); color:var(--ink); font:inherit; }
+textarea { min-height:60px; resize:vertical; }
+.row { display:grid; gap:12px; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); margin-bottom:12px; }
+.source { border:1px dashed var(--line); border-radius:8px; padding:12px; margin-bottom:10px; }
+.units { display:grid; gap:6px; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); }
+.unit { border:1px solid var(--line); border-radius:6px; padding:8px; cursor:pointer; display:flex; gap:8px; }
+.unit small { color:var(--muted); display:block; line-height:1.5; }
+.chips { display:flex; flex-wrap:wrap; gap:8px; }
+.chip { border:1px solid var(--line); border-radius:999px; padding:5px 12px; cursor:pointer; user-select:none; }
+.chip input { margin-right:4px; }
+table { width:100%; border-collapse:collapse; }
+th, td { text-align:left; padding:6px 4px; border-bottom:1px solid var(--line); vertical-align:top; }
+th { font-size:13px; color:var(--muted); font-weight:normal; }
+td.num { width:84px; }
+button { font:inherit; border:1px solid var(--line); background:var(--card); color:var(--ink);
+         padding:7px 14px; border-radius:6px; cursor:pointer; }
+button.primary { background:var(--accent); color:var(--accent-ink); border-color:var(--accent); font-weight:600; padding:10px 22px; }
+button:disabled { opacity:.5; cursor:not-allowed; }
+button.link { border:none; background:none; color:var(--danger); padding:4px; }
+.toolbar { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:10px; }
+.total { margin-left:auto; color:var(--muted); }
+#log { font-family:ui-monospace,monospace; font-size:13px; white-space:pre-wrap; color:var(--muted);
+       max-height:200px; overflow:auto; margin:10px 0 0; }
+.err { color:var(--danger); }
+.ok { color:var(--ok); }
+.downloads { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0; }
+.downloads a { color:var(--accent); text-decoration:none; border:1px solid var(--line); border-radius:6px; padding:6px 10px; }
+.tabs { display:flex; gap:6px; margin-bottom:8px; }
+.tabs button.active { background:var(--accent); color:var(--accent-ink); border-color:var(--accent); }
+iframe { width:100%; height:70vh; border:1px solid var(--line); border-radius:6px; background:#fff; }
+@media (max-width:600px) {
+  .table-wrap { overflow-x:auto; }
+  table { min-width:560px; }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>英文試卷 AI 生成器</h1>
+  <p>選擇雜誌、月號與單元，設定題型與題數，由 AI 依單元的單字、文法、句型與主題命題並組成試卷。</p>
+</header>
+<main>
+  <section class="card">
+    <h2><span class="step">1</span>命題範圍</h2>
+    <div id="sources"></div>
+    <button type="button" id="addSource">＋ 加入其他雜誌或月號</button>
+  </section>
+
+  <section class="card">
+    <h2><span class="step">2</span>命題重點與試卷資訊</h2>
+    <label>命題重點（可複選）</label>
+    <div class="chips" id="focus" style="margin-bottom:12px">
+      <label class="chip"><input type="checkbox" value="vocabulary" checked>單字片語</label>
+      <label class="chip"><input type="checkbox" value="grammar" checked>文法</label>
+      <label class="chip"><input type="checkbox" value="patterns" checked>句型</label>
+      <label class="chip"><input type="checkbox" value="topic" checked>主題與課文</label>
+    </div>
+    <div class="row">
+      <div><label>試卷標題</label><input type="text" id="title" value="英文段考試卷"></div>
+      <div><label>學生程度</label><input type="text" id="level" value="高中一年級"></div>
+      <div><label>難度</label>
+        <select id="difficulty">
+          <option value="easy">偏易</option>
+          <option value="medium" selected>中等</option>
+          <option value="hard">偏難</option>
+        </select></div>
+    </div>
+    <label>給 AI 的整體額外要求（選填）</label>
+    <textarea id="notes" placeholder="例如：題目情境以台灣高中生的校園生活為主"></textarea>
+  </section>
+
+  <section class="card">
+    <h2><span class="step">3</span>題型與題數</h2>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>題型</th><th>題數</th><th>每題分數</th><th>本大題額外要求（選填）</th><th></th></tr></thead>
+      <tbody id="sections"></tbody>
+    </table>
+    </div>
+    <div class="toolbar">
+      <button type="button" id="addSection">＋ 新增大題</button>
+      <button type="button" id="presetStandard">套用：段考標準卷</button>
+      <button type="button" id="presetQuiz">套用：單元小考</button>
+      <span class="total" id="total"></span>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2><span class="step">4</span>產生試卷</h2>
+    <button type="button" class="primary" id="generate">產生試卷</button>
+    <div id="log"></div>
+    <div id="result" hidden>
+      <div class="downloads" id="downloads"></div>
+      <div class="tabs">
+        <button type="button" data-file="exam.html" class="active">學生卷</button>
+        <button type="button" data-file="exam_answers.html">教師卷（含答案解析）</button>
+      </div>
+      <iframe id="preview" title="試卷預覽"></iframe>
+    </div>
+  </section>
+</main>
+
+<script>
+let catalog = { magazines: [], question_types: [] };
+const $ = (s, el = document) => el.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+// ---------- 命題範圍 ----------
+function addSource() {
+  const box = document.createElement("div");
+  box.className = "source";
+  box.innerHTML = `
+    <div class="row">
+      <div><label>雜誌</label><select class="mag"></select></div>
+      <div><label>月號</label><select class="issue"></select></div>
+      <div style="align-self:end;text-align:right"><button type="button" class="link remove">移除</button></div>
+    </div>
+    <label>單元（不勾選代表整期）</label>
+    <div class="units"></div>`;
+  const mag = $(".mag", box), issue = $(".issue", box);
+  mag.innerHTML = catalog.magazines.map(m => `<option value="${esc(m.id)}">${esc(m.name)}</option>`).join("");
+  const fillIssues = () => {
+    const m = catalog.magazines.find(m => m.id === mag.value);
+    issue.innerHTML = (m ? m.issues : []).map(i => `<option value="${esc(i.id)}">${esc(i.id)} ${esc(i.title)}</option>`).join("");
+    fillUnits();
+  };
+  const fillUnits = () => {
+    const m = catalog.magazines.find(m => m.id === mag.value);
+    const i = m && m.issues.find(i => i.id === issue.value);
+    $(".units", box).innerHTML = (i ? i.units : []).map(u => `
+      <label class="unit"><input type="checkbox" value="${esc(u.id)}" checked>
+        <span><b>${esc(u.id)} ${esc(u.title)}</b>
+          <small>主題：${esc(u.topic)}｜單字片語 ${u.vocab_count} 個</small>
+          ${u.grammar.length ? `<small>文法：${esc(u.grammar.join("、"))}</small>` : ""}
+          ${u.patterns.length ? `<small>句型：${esc(u.patterns.join("、"))}</small>` : ""}
+        </span></label>`).join("");
+  };
+  mag.addEventListener("change", fillIssues);
+  issue.addEventListener("change", fillUnits);
+  $(".remove", box).addEventListener("click", () => {
+    if (document.querySelectorAll(".source").length > 1) box.remove();
+  });
+  $("#sources").appendChild(box);
+  fillIssues();
+}
+
+// ---------- 題型 ----------
+function addSection(type, count, points, instructions = "") {
+  const qt = catalog.question_types.find(t => t.key === type) || catalog.question_types[0];
+  const tr = document.createElement("tr");
+  tr.innerHTML = `
+    <td><select class="type">${catalog.question_types.map(t =>
+      `<option value="${t.key}" ${t.key === qt.key ? "selected" : ""}>${esc(t.name)}</option>`).join("")}</select></td>
+    <td class="num"><input type="number" class="count" min="1" max="50" value="${count || 5}"></td>
+    <td class="num"><input type="number" class="points" min="0.5" step="0.5" value="${points || qt.default_points}"></td>
+    <td><input type="text" class="instructions" value="${esc(instructions)}"></td>
+    <td><button type="button" class="link">刪除</button></td>`;
+  $(".type", tr).addEventListener("change", e => {
+    const t = catalog.question_types.find(t => t.key === e.target.value);
+    $(".points", tr).value = t.default_points;
+    updateTotal();
+  });
+  tr.addEventListener("input", updateTotal);
+  $("button", tr).addEventListener("click", () => { tr.remove(); updateTotal(); });
+  $("#sections").appendChild(tr);
+  updateTotal();
+}
+
+function applyPreset(rows) {
+  $("#sections").innerHTML = "";
+  rows.forEach(r => addSection(...r));
+}
+
+function updateTotal() {
+  let n = 0, pts = 0;
+  document.querySelectorAll("#sections tr").forEach(tr => {
+    const c = +$(".count", tr).value || 0;
+    n += c; pts += c * (+$(".points", tr).value || 0);
+  });
+  $("#total").textContent = `共 ${n} 題，總分 ${pts} 分`;
+}
+
+// ---------- 產生 ----------
+function collectSpec() {
+  return {
+    title: $("#title").value.trim() || "英文測驗卷",
+    level: $("#level").value.trim() || "高中",
+    difficulty: $("#difficulty").value,
+    notes: $("#notes").value.trim(),
+    focus: [...document.querySelectorAll("#focus input:checked")].map(i => i.value),
+    sources: [...document.querySelectorAll(".source")].map(box => ({
+      magazine: $(".mag", box).value,
+      issue: $(".issue", box).value,
+      units: [...box.querySelectorAll(".units input:checked")].map(i => i.value),
+    })),
+    sections: [...document.querySelectorAll("#sections tr")].map(tr => ({
+      type: $(".type", tr).value,
+      count: +$(".count", tr).value,
+      points: +$(".points", tr).value,
+      instructions: $(".instructions", tr).value.trim(),
+    })),
+  };
+}
+
+async function generate() {
+  const spec = collectSpec();
+  const log = $("#log");
+  if (!spec.focus.length) { log.innerHTML = `<span class="err">請至少勾選一個命題重點。</span>`; return; }
+  if (!spec.sections.length) { log.innerHTML = `<span class="err">請至少新增一個大題。</span>`; return; }
+  $("#generate").disabled = true;
+  $("#result").hidden = true;
+  log.textContent = "送出命題設定…";
+  try {
+    const res = await fetch("/api/generate", {
+      method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(spec),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || res.statusText);
+    await poll(data.job_id);
+  } catch (e) {
+    log.innerHTML += `\n<span class="err">${esc(e.message)}</span>`;
+  } finally {
+    $("#generate").disabled = false;
+  }
+}
+
+async function poll(jobId) {
+  const log = $("#log");
+  while (true) {
+    await new Promise(r => setTimeout(r, 2000));
+    const job = await (await fetch(`/api/jobs/${jobId}`)).json();
+    log.textContent = job.log.join("\n") || "AI 命題中，請稍候（每個大題約需 1 分鐘）…";
+    log.scrollTop = log.scrollHeight;
+    if (job.status === "error") throw new Error(job.error);
+    if (job.status === "done") { showResult(jobId); return; }
+  }
+}
+
+function showResult(jobId) {
+  const files = [
+    ["exam.docx", "學生卷 Word"], ["exam_answers.docx", "教師卷 Word"],
+    ["exam.html", "學生卷 HTML（列印）"], ["exam_answers.html", "教師卷 HTML（列印）"],
+    ["exam.md", "學生卷 Markdown"], ["exam_answers.md", "教師卷 Markdown"], ["exam.json", "原始資料 JSON"],
+  ];
+  $("#downloads").innerHTML = files.map(([f, name]) =>
+    `<a href="/exams/${jobId}/${f}" target="_blank" rel="noopener">${name}</a>`).join("");
+  document.querySelectorAll(".tabs button").forEach(b => {
+    b.onclick = () => {
+      document.querySelectorAll(".tabs button").forEach(x => x.classList.toggle("active", x === b));
+      $("#preview").src = `/exams/${jobId}/${b.dataset.file}`;
+    };
+  });
+  $(".tabs button").click();
+  $("#result").hidden = false;
+  $("#log").innerHTML += `\n<span class="ok">試卷已完成，可預覽或下載。</span>`;
+}
+
+// ---------- 初始化 ----------
+const PRESETS = {
+  standard: [["vocabulary", 10, 2], ["grammar", 5, 2], ["cloze", 10, 2], ["word_bank", 10, 2],
+             ["reading", 8, 2], ["translation", 2, 4], ["sentence_combination", 2, 3]],
+  quiz: [["vocabulary", 10, 3], ["grammar", 5, 4], ["sentence_combination", 5, 4], ["translation", 3, 10]],
+};
+
+(async () => {
+  catalog = await (await fetch("/api/catalog")).json();
+  if (!catalog.magazines.length) {
+    $("#sources").innerHTML = `<p class="err">教材庫是空的，請先在 library/ 資料夾加入雜誌教材。</p>`;
+    return;
+  }
+  addSource();
+  applyPreset(PRESETS.quiz);
+  $("#addSource").onclick = addSource;
+  $("#addSection").onclick = () => addSection("vocabulary", 5);
+  $("#presetStandard").onclick = () => applyPreset(PRESETS.standard);
+  $("#presetQuiz").onclick = () => applyPreset(PRESETS.quiz);
+  $("#generate").onclick = generate;
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+# 一個檔案代表一期，檔名就是月號。
+issue: 2026-09
+title: 九月號：生活與永續
+units:
+  - id: U1
+    title: Saying Goodbye to Single-Use Plastic
+    topic: 環保永續、減塑校園
+    article: |
+      Every day, students at Lin's high school threw away hundreds of plastic cups.
+      It was not until the school cafeteria ran out of trash bags one afternoon that
+      people realized how serious the problem had become. Inspired by the moment,
+      the student council launched a campaign called "Bring Your Own Cup."
+      Students who brought reusable cups were rewarded with small discounts, and the
+      results were remarkable: within three months, plastic waste dropped by half.
+      The campaign proves that sustainable habits do not have to be inconvenient.
+      When small actions are multiplied by thousands of people, they can make a
+      real difference to the environment.
+    vocabulary:
+      - {word: sustainable, pos: adj., meaning: 永續的；可持續的, example: We need a sustainable way to deal with waste.}
+      - {word: reusable, pos: adj., meaning: 可重複使用的, example: She always carries a reusable bottle.}
+      - {word: campaign, pos: n., meaning: 運動；活動, example: The campaign raised money for the local library.}
+      - {word: launch, pos: v., meaning: 發起；推出, example: The company launched a new app last week.}
+      - {word: reward, pos: v./n., meaning: 獎勵；報酬, example: Hard work is often rewarded.}
+      - {word: remarkable, pos: adj., meaning: 顯著的；非凡的, example: She made remarkable progress in English.}
+      - {word: inconvenient, pos: adj., meaning: 不方便的, example: It is inconvenient to live far from school.}
+      - {word: multiply, pos: v., meaning: 成倍增加；乘, example: Small savings multiply over time.}
+      - {word: waste, pos: n./v., meaning: 廢棄物；浪費, example: Don't waste food.}
+      - {word: inspire, pos: v., meaning: 激勵；啟發, example: Her story inspired many young people.}
+    phrases:
+      - {word: run out of, meaning: 用完, example: We ran out of milk this morning.}
+      - {word: make a difference, meaning: 產生影響；有所作為, example: Every vote can make a difference.}
+      - {word: throw away, meaning: 丟掉, example: Don't throw away the box; we can reuse it.}
+    grammar:
+      - point: 分詞構句（過去分詞開頭）
+        explanation: 以過去分詞開頭表示被動或原因，主詞須與主要子句一致。
+        examples:
+          - Inspired by the moment, the student council launched a campaign.
+          - Written in simple English, the book is easy to read.
+      - point: 關係代名詞 who 引導形容詞子句
+        explanation: who 修飾人，在子句中當主詞。
+        examples:
+          - Students who brought reusable cups were rewarded.
+    patterns:
+      - pattern: It was not until ... that ...
+        meaning: 直到……才……
+        examples:
+          - It was not until midnight that he finished his homework.
+          - It was not until the school ran out of trash bags that people realized the problem.
+      - pattern: do not have to + V
+        meaning: 不必……
+        examples:
+          - Sustainable habits do not have to be inconvenient.
+
+  - id: U2
+    title: A Night at the Market
+    topic: 台灣夜市文化、飲食
+    article: |
+      For many visitors, a trip to Taiwan is not complete without a night market.
+      As the sun goes down, quiet streets are transformed into lively places full of
+      colorful lights and delicious smells. Vendors shout to attract customers, while
+      families and tourists wander from stall to stall. Some people come for famous
+      snacks such as stinky tofu and bubble tea; others simply enjoy the atmosphere.
+      What makes night markets special is not only the food but also the sense of
+      community. Neighbors chat with vendors they have known for years, and strangers
+      share tables as if they were old friends.
+    vocabulary:
+      - {word: transform, pos: v., meaning: 使改變；使轉變, example: The old factory was transformed into a museum.}
+      - {word: lively, pos: adj., meaning: 熱鬧的；有活力的, example: The party was lively and fun.}
+      - {word: vendor, pos: n., meaning: 小販, example: The vendor sells fruit near the station.}
+      - {word: attract, pos: v., meaning: 吸引, example: The festival attracts thousands of visitors.}
+      - {word: wander, pos: v., meaning: 閒逛；漫步, example: We wandered around the old town.}
+      - {word: stall, pos: n., meaning: 攤位, example: She runs a noodle stall.}
+      - {word: atmosphere, pos: n., meaning: 氣氛；大氣, example: The café has a relaxing atmosphere.}
+      - {word: community, pos: n., meaning: 社區；群體, example: The community worked together to clean the park.}
+      - {word: stranger, pos: n., meaning: 陌生人, example: Don't open the door to strangers.}
+      - {word: complete, pos: adj./v., meaning: 完整的；完成, example: The set is not complete without this piece.}
+    phrases:
+      - {word: as if, meaning: 彷彿；好像, example: He talks as if he knew everything.}
+      - {word: from ... to ..., meaning: 從……到……, example: They walked from shop to shop.}
+    grammar:
+      - point: 被動語態（be + p.p.）
+        explanation: 強調動作的接受者，be 動詞依時態變化。
+        examples:
+          - Quiet streets are transformed into lively places.
+      - point: 名詞子句 What ... 當主詞
+        explanation: What 引導的名詞子句可作句子主詞，視為單數。
+        examples:
+          - What makes night markets special is the sense of community.
+    patterns:
+      - pattern: not only A but also B
+        meaning: 不僅 A 而且 B
+        examples:
+          - It is not only the food but also the people that make the market special.
+      - pattern: as if + 假設語氣
+        meaning: 彷彿……（與事實相反用過去式）
+        examples:
+          - Strangers share tables as if they were old friends.
+      - pattern: some ...; others ...
+        meaning: 有些……；有些……
+        examples:
+          - Some people come for the food; others enjoy the atmosphere.

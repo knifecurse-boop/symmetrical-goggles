@@ -1,0 +1,87 @@
+issue: 2026-10
+title: 十月號：科技與健康
+units:
+  - id: U1
+    title: Studying with an AI Buddy
+    topic: 人工智慧與學習
+    article: |
+      More and more students now rely on AI tools to help them study. An AI study
+      buddy can explain difficult concepts, quiz you on new words, and even point out
+      mistakes in your essays. However, experts warn that these tools should be used
+      wisely. If students depend on AI too much, they may lose the chance to think
+      critically. The key is balance: use AI to check your understanding, not to do
+      the thinking for you. After all, the goal of learning is not merely to get the
+      right answers but to understand why they are right.
+    vocabulary:
+      - {word: rely, pos: v., meaning: 依賴, example: You can rely on me.}
+      - {word: concept, pos: n., meaning: 概念, example: The concept is hard to explain.}
+      - {word: essay, pos: n., meaning: 文章；短文, example: We have to write an essay about our summer.}
+      - {word: expert, pos: n., meaning: 專家, example: Experts say we should sleep eight hours a day.}
+      - {word: critically, pos: adv., meaning: 批判性地, example: Learn to think critically about the news.}
+      - {word: balance, pos: n./v., meaning: 平衡, example: It's hard to balance work and play.}
+      - {word: merely, pos: adv., meaning: 僅僅, example: He is merely a beginner.}
+      - {word: wisely, pos: adv., meaning: 明智地, example: Spend your money wisely.}
+    phrases:
+      - {word: point out, meaning: 指出, example: The teacher pointed out my mistakes.}
+      - {word: depend on, meaning: 依賴；取決於, example: It depends on the weather.}
+      - {word: after all, meaning: 畢竟, example: Don't be too hard on him; he's only a child after all.}
+    grammar:
+      - point: 條件句 If + 現在式, 主要子句用 will/may
+        explanation: 表示可能發生的情況與結果。
+        examples:
+          - If students depend on AI too much, they may lose the chance to think critically.
+      - point: 助動詞 should + be + p.p.
+        explanation: 被動語態搭配情態助動詞。
+        examples:
+          - These tools should be used wisely.
+    patterns:
+      - pattern: not merely A but B
+        meaning: 不僅僅是 A 而是 B
+        examples:
+          - The goal of learning is not merely to get the right answers but to understand why.
+      - pattern: More and more + N + V
+        meaning: 越來越多的……
+        examples:
+          - More and more students rely on AI tools.
+
+  - id: U2
+    title: Why Teens Need More Sleep
+    topic: 青少年睡眠與健康
+    article: |
+      Teenagers are often accused of being lazy when they sleep late on weekends.
+      In fact, scientists have found that teens' body clocks naturally shift during
+      puberty, making it harder for them to fall asleep early. Lack of sleep can
+      affect memory, mood, and even physical health. The more tired students are,
+      the harder it is for them to concentrate in class. To get better rest, experts
+      suggest that teens avoid screens before bed and keep a regular schedule, even
+      on weekends.
+    vocabulary:
+      - {word: accuse, pos: v., meaning: 指控；責備, example: He was accused of cheating.}
+      - {word: naturally, pos: adv., meaning: 自然地, example: Her hair is naturally curly.}
+      - {word: shift, pos: v./n., meaning: 轉移；改變, example: The wind shifted to the north.}
+      - {word: lack, pos: n./v., meaning: 缺乏, example: Lack of water can kill plants.}
+      - {word: mood, pos: n., meaning: 心情, example: She's in a good mood today.}
+      - {word: physical, pos: adj., meaning: 身體的, example: Physical exercise is good for you.}
+      - {word: concentrate, pos: v., meaning: 專心, example: I can't concentrate with the TV on.}
+      - {word: schedule, pos: n., meaning: 時間表, example: My schedule is full this week.}
+    phrases:
+      - {word: fall asleep, meaning: 入睡, example: I fell asleep during the movie.}
+      - {word: in fact, meaning: 事實上, example: In fact, he is older than he looks.}
+    grammar:
+      - point: suggest that + S + (should) + 原形動詞
+        explanation: 建議類動詞後的 that 子句用原形動詞（省略 should）。
+        examples:
+          - Experts suggest that teens avoid screens before bed.
+      - point: 現在分詞構句表結果
+        explanation: 以 V-ing 片語補充說明前句造成的結果。
+        examples:
+          - Body clocks shift during puberty, making it harder to fall asleep early.
+    patterns:
+      - pattern: The + 比較級 ..., the + 比較級 ...
+        meaning: 越……就越……
+        examples:
+          - The more tired students are, the harder it is for them to concentrate.
+      - pattern: be accused of + N/V-ing
+        meaning: 被指責……
+        examples:
+          - Teenagers are often accused of being lazy.

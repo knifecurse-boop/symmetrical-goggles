@@ -1,0 +1,26 @@
+# 出題設定檔範例：exam-gen generate --spec specs/sample_exam.yaml
+title: 高一英文第一次段考
+level: 高中一年級
+difficulty: medium          # easy / medium / hard
+# 命題重點：vocabulary 單字片語、grammar 文法、patterns 句型、topic 主題與課文
+focus: [vocabulary, grammar, patterns, topic]
+notes: 題目情境以台灣高中生的日常生活為主。
+
+# 命題範圍：可以跨雜誌、跨月號；units 留空代表整期
+sources:
+  - magazine: sample-english-monthly
+    issue: 2026-09
+    units: [U1, U2]
+  - magazine: sample-english-monthly
+    issue: 2026-10
+    units: [U1]
+
+# 題型與題數：type 可用 exam-gen catalog 查看
+sections:
+  - {type: vocabulary, count: 10, points: 2}
+  - {type: grammar, count: 5, points: 2, focus: [grammar, patterns]}
+  - {type: cloze, count: 10, points: 2}
+  - {type: word_bank, count: 10, points: 2}
+  - {type: reading, count: 8, points: 2}
+  - {type: translation, count: 2, points: 4, instructions: 每題須用到一個課本句型}
+  - {type: sentence_combination, count: 2, points: 3}
